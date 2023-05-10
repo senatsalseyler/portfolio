@@ -6,7 +6,7 @@
 }
 
 .navbar {
-    background: #4E495F;
+    background: #000001;
     height: 80px;
     display: flex;
     justify-content: center;
@@ -43,9 +43,9 @@
     font-size: 2rem;
 }
 
-.fa-gem {
+/*.fa-gem {
     margin-right: 0.5rem;
-}
+}*/
 
 .navbar__menu {
     display: flex;
@@ -123,11 +123,11 @@
         transition: all 0.5s ease;
         height: 90vh;
         z-index: -1;
-        background: #4E495F;
+        background: #000001;
     }
 
     .navbar__menu.active {
-        background: #4E495F;
+        background: #000001;
         top: 100%;
         opacity: 1;
         transition: all 0.5s ease;
