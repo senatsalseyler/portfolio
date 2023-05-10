@@ -29,7 +29,7 @@
 }
 
 #navbar__logo {
-    background-color: #AE8C81;
+    background-color: #fff;
     background-image: linear-gradient(to top, #453643 %0, #28112B %100);
     background-size: 100%;
     -webkit-background-clip: text;
@@ -59,7 +59,7 @@
 }
 
 .navbar__links {
-    color: #F6D6BD;
+    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -87,17 +87,17 @@
     border: none;
     outline: none;
     border-radius: 4px;
-    background: #F6D6BD;
+    background: #fff;
     color: #08141E;
 }
 
 .button:hover {
-    background:  #8D6C74;
+    background:  #A9B6BD;
     transition: all 0.3s ease;
 }
 
 .navbar__links:hover {
-    color: #08141E;
+    color: #A9B6BD;
     transition: all 0.3s ease;
 }
 
@@ -145,7 +145,7 @@
         height: 3px;
         margin: 5px auto;
         transition: all 0.3s ease-in-out;
-        background: #C3A38A;
+        background: #8F9CA3;
     }
 
     .navbar__item {
