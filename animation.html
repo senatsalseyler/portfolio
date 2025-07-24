@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIF Portfolio Gallery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .gif-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: white;
+            aspect-ratio: 1;
+        }
+
+        .gif-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .gif-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gif-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gif-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gif-item:hover::after {
+            opacity: 1;
+        }
+
+        .gif-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px 15px 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gif-item:hover .gif-title {
+            opacity: 1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: scaleIn 0.3s ease;
+        }
+
+        .modal img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .modal-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 30px 20px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { 
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to { 
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            body {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>My GIF Portfolio</h1>
+            <p>Click on any GIF to view it in full size</p>
+        </div>
+        
+        <div class="gallery">
+            <div class="gif-item" onclick="openModal('gifler/balıklar.gif', 'Balıklar')">
+                <img src="gifler/balıklar.gif" alt="Balıklar">
+                <div class="gif-title">Balıklar</div>
+            </div>
+            
+            <div class="gif-item" onclick="openModal('gifler/çiçek tahterevalli 09.02.2021.gif', 'Çiçek Tahterevalli')">
+                <img src="gifler/çiçek tahterevalli 09.02.2021.gif" alt="Çiçek Tahterevalli">
+                <div class="gif-title">Çiçek Tahterevalli</div>
+            </div>
+            
+            <div class="gif-item" onclick="openModal('gifler/gökyüzü sörfü.gif', 'Gökyüzü Sörfü')">
+                <img src="gifler/gökyüzü sörfü.gif" alt="Gökyüzü Sörfü">
+                <div class="gif-title">Gökyüzü Sörfü</div>
+            </div>
+            
+            <div class="gif-item" onclick="openModal('gifler/havai çiçek.gif', 'Havai Çiçek')">
+                <img src="gifler/havai çiçek.gif" alt="Havai Çiçek">
+                <div class="gif-title">Havai Çiçek</div>
+            </div>
+            
+            <div class="gif-item" onclick="openModal('gifler/kar küresi 16.02.2021.gif', 'Kar Küresi')">
+                <img src="gifler/kar küresi 16.02.2021.gif" alt="Kar Küresi">
+                <div class="gif-title">Kar Küresi</div>
+            </div>
+            
+            <div class="gif-item" onclick="openModal('gifler/kuş.gif', 'Kuş')">
+                <img src="gifler/kuş.gif" alt="Kuş">
+                <div class="gif-title">Kuş</div>
+            </div>
+            
+            <div class="gif-item" onclick="openModal('gifler/sarkaçlı saat.gif', 'Sarkaçlı Saat')">
+                <img src="gifler/sarkaçlı saat.gif" alt="Sarkaçlı Saat">
+                <div class="gif-title">Sarkaçlı Saat</div>
+            </div>
+            
+            <div class="gif-item" onclick="openModal('gifler/yığın 04.01.2021.gif', 'Yığın')">
+                <img src="gifler/yığın 04.01.2021.gif" alt="Yığın">
+                <div class="gif-title">Yığın</div>
+            </div>
+            
+            <div class="gif-item" onclick="openModal('gifler/yüzen ördekler.gif', 'Yüzen Ördekler')">
+                <img src="gifler/yüzen ördekler.gif" alt="Yüzen Ördekler">
+                <div class="gif-title">Yüzen Ördekler</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <img id="modal-img" src="" alt="">
+            <div class="modal-title" id="modal-title"></div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(src, title) {
+            const modal = document.getElementById('modal');
+            const modalImg = document.getElementById('modal-img');
+            const modalTitle = document.getElementById('modal-title');
+            
+            modalImg.src = src;
+            modalTitle.textContent = title;
+            modal.classList.add('active');
+            
+            // Prevent body scrolling when modal is open
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(event) {
+            if (event && event.target !== event.currentTarget && !event.target.classList.contains('close-btn')) {
+                return;
+            }
+            
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+            
+            // Restore body scrolling
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Ensure proper aspect ratio on window resize
+        window.addEventListener('resize', function() {
+            const modal = document.getElementById('modal');
+            if (modal.classList.contains('active')) {
+                // Force recalculation of modal dimensions
+                const modalContent = modal.querySelector('.modal-content');
+                modalContent.style.maxWidth = '90vw';
+                modalContent.style.maxHeight = '90vh';
+            }
+        });
+    </script>
+</body>
+</html>
